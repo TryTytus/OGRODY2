@@ -65,78 +65,158 @@ BRANCH_CLASS::~BRANCH_CLASS() {
 
 // GETTERS
 
-unsigned int BRANCH_CLASS::getFruitsTotal()
-{
-    return 0;
-}
-unsigned int BRANCH_CLASS::getWeightsTotal()
-{
-    return 0;
+
+unsigned int BRANCH_CLASS::getFruitsTotal() {
+    return fNum;
 }
 
-unsigned int BRANCH_CLASS::getHeight()
-{
-    return 0;
-}
-unsigned int BRANCH_CLASS::getLength()
-{
-    return 0;
+unsigned int BRANCH_CLASS::getWeightsTotal() {
+    return weight;
 }
 
-FRUIT_CLASS* BRANCH_CLASS::getFruitPointer(unsigned int inArea)
-{
+unsigned int BRANCH_CLASS::getHeight() {
+    return tHeight;
+}
+
+unsigned int BRANCH_CLASS::getLength() {
+    return bLen;
+}
+
+FRUIT_CLASS* BRANCH_CLASS::getFruitPointer(unsigned int length) {
+    FRUIT_CLASS* cur = head->getNext();
+    while (cur != NULL)
+    {
+        if (cur->getLength() == length) {
+            return cur;
+        }
+        cur = cur->getNext();
+    }
     return NULL;
 }
-TREE_CLASS* BRANCH_CLASS::getTreePointer()
-{
-    return NULL;
+
+TREE_CLASS* BRANCH_CLASS::getTreePointer() {
+    return parent;
 }
 
 // SETTERS
 
-void BRANCH_CLASS::growthBranch()
-{
+void BRANCH_CLASS::growthBranch() {
+
+    FRUIT_CLASS* curF = head->getNext();
+    bool exist = false;
+
+    bLen += 1;
+
+    while (curF != NULL) {
+        curF->growthFruit();
+        if (curF->getLength() == bLen)
+        {
+            exist = true;
+        }
+
+        curF = curF->getNext();
+    }
+
+    // STOP
+    if (exist)
+        return;
+
+    // new Fruit
+
+    if ((bLen % 2 == 0) && (bLen > 0))
+    {
+        FRUIT_CLASS* newFruit = new FRUIT_CLASS();
+        newFruit->setLength(bLen);
+        pushFruit(newFruit);
+    }
 
 }
-void BRANCH_CLASS::fadeBranch()
-{
+
+void BRANCH_CLASS::fadeBranch() {
+    // CHECK
+    if (bLen <= 0)
+        return;
+
+    FRUIT_CLASS* cur = head->getNext();
+
+    bLen -= 1;
+
+    while (cur != NULL) {
+        cur->fadeFruit();
+        cur = cur->getNext();
+    }
+
+    if (last != head && bLen < last->getLength()) {
+        FRUIT_CLASS* newLast = last->getPrev();
+        delete last;
+
+        last = newLast;
+    }
+
 
 }
 
-void BRANCH_CLASS::harvestBranch(unsigned int weightMax)
-{
+void BRANCH_CLASS::harvestBranch(unsigned int weightMax) {
+    FRUIT_CLASS* cur = head->getNext();
 
+    while (cur != NULL) {
+        if (weightMax <= cur->getWeight()) {
+            cur->pluckFruit();
+        }
+        cur = cur->getNext();
+    }
 }
-void BRANCH_CLASS::cutBranch(unsigned int cutTo)
-{
 
+void BRANCH_CLASS::cutBranch(unsigned int cutTo) {
+
+    FRUIT_CLASS* cur = last;
+
+    unsigned int deleted = 0;
+    unsigned int weightLost = 0;
+
+    while (cur != head) {
+        if (cutTo >= cur->getLength()) {
+            break;
+        }
+        weightLost += cur->getWeight();
+        deleted++;
+
+        cur = cur->getPrev();
+        delete cur->getNext();
+    }
+
+    cur->setPrev(NULL);
+    last = cur;
+
+    decFNum(deleted);
+    decFWeight(weightLost);
 }
 
 
 // OTHER METHODS
 
 void BRANCH_CLASS::decFWeight(unsigned int x) {
-    // weight -= x;
-    // if (parent != NULL)
-    //     parent->decFWeight(x);
+    weight -= x;
+    if (parent != NULL)
+        parent->decFWeight(x);
 }
 
 void BRANCH_CLASS::addFWeight(unsigned int x) {
-    // weight += x;
-    // if (parent != NULL)
-    //     parent->addFWeight(x);
+    weight += x;
+    if (parent != NULL)
+        parent->addFWeight(x);
 }
 
 void BRANCH_CLASS::decFNum(unsigned int x) {
-    // weight -= x;
-    // if (parent != NULL)
-    //     parent->decFNum(x);
+    weight -= x;
+    if (parent != NULL)
+        parent->decFNum(x);
 }
 
 void BRANCH_CLASS::addFNum(unsigned int x) {
-    // weight += x;
-    // if (parent != NULL)
-    //     parent->addFNum(x);
+    weight += x;
+    if (parent != NULL)
+        parent->addFNum(x);
 }
 
 void BRANCH_CLASS::pushFruit(FRUIT_CLASS* pFruit) {

@@ -2,6 +2,7 @@
 
 #include "tree.hpp"
 #include "branch.hpp"
+#include "garden.hpp"
 
 #define NULL 0
 
@@ -9,7 +10,7 @@
 // CONSTRUCTOR
 
 TREE_CLASS::TREE_CLASS() {
-    //CONSTRUCTOR(0, 0, NULL, NULL, NULL);
+    CONSTRUCTOR(0, 0, NULL, NULL, NULL);
 }
 
 
@@ -66,97 +67,182 @@ TREE_CLASS::~TREE_CLASS() {
     delete head;
 }
 
+// ------- GETTERS -------
 
-unsigned int TREE_CLASS::getBranchesTotal ()
-{
-    return 0;
-}
-unsigned int TREE_CLASS::getFruitsTotal ()
-{
-    return 0;
-}
-unsigned int TREE_CLASS::getWeightsTotal ()
-{
-    return 0;
+unsigned int TREE_CLASS::getBranchesTotal() {
+    return bNum;
 }
 
-unsigned int TREE_CLASS::getNumber ()
-{
-    return 0;
-}
-unsigned int TREE_CLASS::getHeight ()
-{
-    return 0;
+unsigned int TREE_CLASS::getFruitsTotal() {
+    return fNum;
 }
 
-GARDEN_CLASS* TREE_CLASS::getGardenPointer ()
-{
+unsigned int TREE_CLASS::getWeightsTotal() {
+    return weight;
+}
+
+unsigned int TREE_CLASS::getNumber() {
+    return treeID;
+}
+
+unsigned int TREE_CLASS::getHeight() {
+    return tHeight;
+}
+
+GARDEN_CLASS* TREE_CLASS::getGardenPointer() {
+    return parent;
+}
+
+BRANCH_CLASS* TREE_CLASS::getBranchPointer(unsigned int height) {
+    BRANCH_CLASS* cur = head->getNext();
+    while (cur != NULL)
+    {
+        if (cur->getHeight() == height) {
+            return cur;
+        }
+        cur = cur->getNext();
+    }
     return NULL;
 }
-BRANCH_CLASS* TREE_CLASS::getBranchPointer (unsigned int height)
-{
-    return NULL;
-}
+
 
 // ------- SETTERS -------
 
-void TREE_CLASS::growthTree ()
-{
+void TREE_CLASS::growthTree() {
+    BRANCH_CLASS* curF = head->getNext();
+    bool exist = false;
+
+    tHeight += 1;
+
+    while (curF != NULL) {
+        curF->growthBranch();
+        if (curF->getLength() == tHeight)
+        {
+            exist = true;
+        }
+
+        curF = curF->getNext();
+    }
+
+    // STOP
+    if (exist)
+        return;
+
+    // new Fruit
+
+    if ((tHeight % 3 == 0) && (tHeight > 0))
+    {
+        BRANCH_CLASS* newBranch = new BRANCH_CLASS(
+                this,
+                NULL,
+                NULL
+                );
+        pushBranch(newBranch);
+    }
 
 }
-void TREE_CLASS::fadeTree ()
-{
-    
-}
-void TREE_CLASS::harvestTree (unsigned int weightMax)
-{
 
-}
-void TREE_CLASS::cutTree (unsigned int cutTo)
-{
+void TREE_CLASS::fadeTree() {
+    // CHECK
+    if (tHeight <= 0)
+        return;
 
+    BRANCH_CLASS* cur = head->getNext();
+
+    tHeight -= 1;
+
+    while (cur != NULL) {
+        cur->fadeBranch();
+        cur = cur->getNext();
+    }
+
+    if (last != head && tHeight < last->getHeight()) {
+        BRANCH_CLASS* newLast = last->getPrev();
+        delete last;
+
+        last = newLast;
+    }
 }
-void TREE_CLASS::cloneBranch (BRANCH_CLASS* pBranch)
-{
+
+void TREE_CLASS::harvestTree(unsigned int weightMax) {
+    BRANCH_CLASS* cur = head->getNext();
+
+    while (cur != NULL) {
+        if (weightMax <= cur->getWeightsTotal()) {
+            cur->fadeBranch();
+        }
+        cur = cur->getNext();
+    }
+}
+
+void TREE_CLASS::cutTree(unsigned int cutTo) {
+
+    BRANCH_CLASS* cur = last;
+
+    unsigned int deletedB = 0;
+    unsigned int deletedF = 0;
+    unsigned int weightLost = 0;
+
+    while (cur != head) {
+        if (cutTo >= cur->getLength()) {
+            break;
+        }
+        weightLost += cur->getWeightsTotal();
+        deletedF += cur->getFruitsTotal();
+        deletedB++;
+
+        cur = cur->getPrev();
+        delete cur->getNext();
+    }
+
+    cur->setPrev(NULL);
+    last = cur;
+
+    decFNum(deletedF);
+    decFWeight(weightLost);
+    decBNum(deletedB);
+}
+
+void TREE_CLASS::cloneBranch(BRANCH_CLASS *pBranch) {
 
 }
 
 // OTHER METHODS
 
 void TREE_CLASS::decFWeight(unsigned int x) {
-    // weight -= x;
-    // if (parent != NULL)
-    //     parent->decFWeight(x);
+    weight -= x;
+    if (parent != NULL)
+        parent->decFWeight(x);
 }
 
 void TREE_CLASS::addFWeight(unsigned int x) {
-    // weight += x;
-    // if (parent != NULL)
-    //     parent->addFNum(x);
+    weight += x;
+    if (parent != NULL)
+        parent->addFNum(x);
 }
 
 void TREE_CLASS::decFNum(unsigned int x) {
-    // fNum -= x;
-    // if (parent != NULL)
-    //     parent->decFNum(x);
+    fNum -= x;
+    if (parent != NULL)
+        parent->decFNum(x);
 }
 
 void TREE_CLASS::addFNum(unsigned int x) {
-    // fNum += x;
-    // if (parent != NULL)
-    //     parent->addFNum(x);
+    fNum += x;
+    if (parent != NULL)
+        parent->addFNum(x);
 }
 
 void TREE_CLASS::decBNum(unsigned int x) {
-    // bNum -= x;
-    // if (parent != NULL)
-    //     parent->decBNum(x);
+    bNum -= x;
+    if (parent != NULL)
+        parent->decBNum(x);
 }
 
 void TREE_CLASS::addBNum(unsigned int x) {
-    // bNum += x;
-    // if (parent != NULL)
-    //     parent->addBNum(x);
+    bNum += x;
+    if (parent != NULL)
+        parent->addBNum(x);
 }
 
 void TREE_CLASS::pushBranch(BRANCH_CLASS* pBranch) {
@@ -186,3 +272,21 @@ void TREE_CLASS::popBranch() {
 }
 
 
+TREE_CLASS* TREE_CLASS::getPrev()
+{
+    return prev;
+}
+
+TREE_CLASS* TREE_CLASS::getNext()
+{
+    return next;
+}
+
+void TREE_CLASS::setPrev(TREE_CLASS* pTree)
+{
+    prev = pTree;
+}
+void TREE_CLASS::setNext(TREE_CLASS* pTree)
+{
+    next = pTree;
+}

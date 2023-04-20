@@ -83,4 +83,11 @@ public:
 
     void pushBranch(BRANCH_CLASS* pBranch);
     void popBranch();
+
+
+        TREE_CLASS* getPrev();
+        TREE_CLASS* getNext();
+
+        void setPrev(TREE_CLASS* pTree);
+        void setNext(TREE_CLASS* pTree);
 };

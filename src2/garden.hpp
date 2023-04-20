@@ -13,6 +13,7 @@ private:
 
     /** last Tree id */
     unsigned int tLastID;
+    unsigned int cuted;
 
 
     /** Branch count */
@@ -24,6 +25,14 @@ private:
 
 
 public:
+
+    // CONSTRUCTOR
+
+    GARDEN_CLASS();
+
+    void CONSTRUCTOR();
+
+    ~GARDEN_CLASS();
 
     // ------- GETTERS -------
 
@@ -43,8 +52,26 @@ public:
 
     void growthGarden ();
     void fadeGarden ();
-    void harvestGarden ();
 
-    void harvestGarden (int a);
+    void harvestGarden (unsigned int weight);
+
+
+    // OTHER METHODS
+
+    void decFWeight(unsigned int x);
+    void addFWeight(unsigned int x);
+
+    void decFNum(unsigned int x);
+    void addFNum(unsigned int x);
+
+    void decBNum(unsigned int x);
+    void addBNum(unsigned int x);
+
+    void decTNum(unsigned int x);
+    void addTNum(unsigned int x);
+
+    void pushTree(TREE_CLASS* pTree);
+    void popTree();
+
 
 };
