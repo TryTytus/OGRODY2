@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/Users/trytytus/studia/p2/baca/ogrody_make/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-12   -g -std=gnu++98 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -o CMakeFiles/ogrody.dir/main.cpp.o -c /Users/trytytus/studia/p2/baca/ogrody_make/main.cpp",
+  "file": "/Users/trytytus/studia/p2/baca/ogrody_make/main.cpp",
+  "output": "CMakeFiles/ogrody.dir/main.cpp.o"
+},
+{
+  "directory": "/Users/trytytus/studia/p2/baca/ogrody_make/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-12   -g -std=gnu++98 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -o CMakeFiles/ogrody.dir/src2/fruit.cpp.o -c /Users/trytytus/studia/p2/baca/ogrody_make/src2/fruit.cpp",
+  "file": "/Users/trytytus/studia/p2/baca/ogrody_make/src2/fruit.cpp",
+  "output": "CMakeFiles/ogrody.dir/src2/fruit.cpp.o"
+},
+{
+  "directory": "/Users/trytytus/studia/p2/baca/ogrody_make/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-12   -g -std=gnu++98 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -o CMakeFiles/ogrody.dir/src2/branch.cpp.o -c /Users/trytytus/studia/p2/baca/ogrody_make/src2/branch.cpp",
+  "file": "/Users/trytytus/studia/p2/baca/ogrody_make/src2/branch.cpp",
+  "output": "CMakeFiles/ogrody.dir/src2/branch.cpp.o"
+},
+{
+  "directory": "/Users/trytytus/studia/p2/baca/ogrody_make/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-12   -g -std=gnu++98 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -o CMakeFiles/ogrody.dir/src2/tree.cpp.o -c /Users/trytytus/studia/p2/baca/ogrody_make/src2/tree.cpp",
+  "file": "/Users/trytytus/studia/p2/baca/ogrody_make/src2/tree.cpp",
+  "output": "CMakeFiles/ogrody.dir/src2/tree.cpp.o"
+},
+{
+  "directory": "/Users/trytytus/studia/p2/baca/ogrody_make/build",
+  "command": "/opt/homebrew/bin/aarch64-apple-darwin22-g++-12   -g -std=gnu++98 -arch arm64 -isysroot /Library/Developer/CommandLineTools/SDKs/MacOSX13.1.sdk -o CMakeFiles/ogrody.dir/src2/garden.cpp.o -c /Users/trytytus/studia/p2/baca/ogrody_make/src2/garden.cpp",
+  "file": "/Users/trytytus/studia/p2/baca/ogrody_make/src2/garden.cpp",
+  "output": "CMakeFiles/ogrody.dir/src2/garden.cpp.o"
+}
+]

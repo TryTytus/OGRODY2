@@ -1,0 +1,3 @@
+/Users/trytytus/studia/p2/baca/ogrody_make/build/CMakeFiles/ogrody.dir
+/Users/trytytus/studia/p2/baca/ogrody_make/build/CMakeFiles/edit_cache.dir
+/Users/trytytus/studia/p2/baca/ogrody_make/build/CMakeFiles/rebuild_cache.dir
